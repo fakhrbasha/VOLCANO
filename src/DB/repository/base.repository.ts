@@ -4,7 +4,7 @@ import { tenantStorage } from "../../common/services/tenant.storage";
 abstract class BaseRepository<TDocument> {
     constructor(protected readonly model: Model<TDocument>) { }
 
-    private getTenantFilter(filter: any = {}): any {
+    protected getTenantFilter(filter: any = {}): any {
         const companyId = tenantStorage.getCompanyId();
 
         // console.log("Tenant CompanyId:", companyId);
@@ -25,11 +25,7 @@ abstract class BaseRepository<TDocument> {
 
     // findById
     async findById(id: Types.ObjectId): Promise<HydratedDocument<TDocument> | null> {
-        const companyId = tenantStorage.getCompanyId();
-        if (companyId && this.model.modelName !== "Company") {
-            return this.model.findOne({ _id: id, companyId } as any);
-        }
-        return this.model.findById(id);
+        return this.findOne({ filter: { _id: id } as any });
     }
 
     // findOne -> filter,projection,options

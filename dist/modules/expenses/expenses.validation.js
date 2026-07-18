@@ -8,7 +8,7 @@ exports.createExpenseSchema = {
         title: zod_1.z.string().min(3),
         amount: zod_1.z.number().min(0),
         category: zod_1.z.string().min(2),
-        expenseDate: zod_1.z.date().optional(),
+        expenseDate: zod_1.z.coerce.date().optional(),
         note: zod_1.z.string().optional()
     })
 };
@@ -25,7 +25,7 @@ exports.updateExpenseSchema = {
         title: zod_1.z.string().min(3).optional(),
         amount: zod_1.z.number().min(0).optional(),
         category: zod_1.z.string().min(2).optional(),
-        expenseDate: zod_1.z.date().optional(),
+        expenseDate: zod_1.z.coerce.date().optional(),
         note: zod_1.z.string().optional()
     })
 };

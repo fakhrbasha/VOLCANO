@@ -5,7 +5,7 @@ export const createExpenseSchema = {
         title: z.string().min(3),
         amount: z.number().min(0),
         category: z.string().min(2),
-        expenseDate: z.date().optional(),
+        expenseDate: z.coerce.date().optional(),
         note: z.string().optional()
     })
 
@@ -27,7 +27,7 @@ export const updateExpenseSchema = {
         title: z.string().min(3).optional(),
         amount: z.number().min(0).optional(),
         category: z.string().min(2).optional(),
-        expenseDate: z.date().optional(),
+        expenseDate: z.coerce.date().optional(),
         note: z.string().optional()
     })
 }

@@ -9,6 +9,7 @@ export interface IEmployee {
     role: string;
     shiftId: Types.ObjectId,
     companyId: Types.ObjectId;
+    isDeleted?: boolean;
 }
 
 const employeeSchema = new mongoose.Schema<IEmployee>({
@@ -44,6 +45,10 @@ const employeeSchema = new mongoose.Schema<IEmployee>({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Shift",
         required: true
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 
 }, {
@@ -54,7 +59,7 @@ const employeeSchema = new mongoose.Schema<IEmployee>({
     toObject: { virtuals: true }
 })
 
-employeeSchema.index({ phone: 1, companyId: 1 }, { unique: true, sparse: true });
+employeeSchema.index({ phone: 1, companyId: 1 }, { unique: true, sparse: true, partialFilterExpression: { isDeleted: false } });
 
 const employeeModel = mongoose.models.Employees || mongoose.model<IEmployee>("Employee", employeeSchema)
 

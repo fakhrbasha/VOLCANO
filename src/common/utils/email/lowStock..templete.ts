@@ -82,7 +82,7 @@ export const templateLowStock = ({
             </div>
 
             <div style="background:#f9fafb; padding:15px; text-align:center; color:#6b7280; font-size:13px;">
-                Volcano ERP • Inventory Management System
+                FAKHR-ERP • Inventory Management System
             </div>
 
         </div>

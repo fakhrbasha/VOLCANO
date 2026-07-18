@@ -22,11 +22,7 @@ class BaseRepository {
         return this.model.create(data);
     }
     async findById(id) {
-        const companyId = tenant_storage_1.tenantStorage.getCompanyId();
-        if (companyId && this.model.modelName !== "Company") {
-            return this.model.findOne({ _id: id, companyId });
-        }
-        return this.model.findById(id);
+        return this.findOne({ filter: { _id: id } });
     }
     async findOne({ filter, projection, options }) {
         const tenantFilter = this.getTenantFilter(filter);

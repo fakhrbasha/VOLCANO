@@ -37,6 +37,10 @@ const employeeSchema = new mongoose_1.default.Schema({
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: "Shift",
         required: true
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true,
@@ -45,6 +49,6 @@ const employeeSchema = new mongoose_1.default.Schema({
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
 });
-employeeSchema.index({ phone: 1, companyId: 1 }, { unique: true, sparse: true });
+employeeSchema.index({ phone: 1, companyId: 1 }, { unique: true, sparse: true, partialFilterExpression: { isDeleted: false } });
 const employeeModel = mongoose_1.default.models.Employees || mongoose_1.default.model("Employee", employeeSchema);
 exports.default = employeeModel;
