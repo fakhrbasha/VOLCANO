@@ -11,7 +11,6 @@ const stock_repository_1 = __importDefault(require("../../DB/repository/stock.re
 const material_repository_1 = __importDefault(require("../../DB/repository/material.repository"));
 const email_event_1 = require("../../common/utils/email/email.event");
 const nodeMailer_1 = require("../../common/utils/email/nodeMailer");
-const config_service_1 = require("../../config/config.service");
 const stockTransaction_repository_1 = __importDefault(require("../../DB/repository/stockTransaction.repository"));
 const stockTransaction_model_1 = require("../../DB/models/stockTransaction.model");
 const lowStock__templete_1 = require("../../common/utils/email/lowStock..templete");
@@ -95,7 +94,7 @@ class StockTransactionService {
         });
         if (newQuantity <= stock.minQuantity) {
             await (0, nodeMailer_1.sendEmail)({
-                to: config_service_1.WAREHOUSE_EMAIL,
+                to: req.user.email,
                 subject: "Low Stock Alert",
                 html: (0, lowStock__templete_1.templateLowStock)({
                     materialName: material?.name,

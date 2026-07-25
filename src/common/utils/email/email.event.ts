@@ -1,7 +1,6 @@
 import { EventEmitter } from "node:events";
 import { EmailEnum } from "../../enums/user.enum";
 import { sendEmail } from "./nodeMailer";
-import { WAREHOUSE_EMAIL } from "../../../config/config.service";
 import { IColor } from "../../../DB/models/color.model";
 import { IMaterial } from "../../../DB/models/materials.model";
 import { NotificationType } from "../../../DB/models/notifications.model";
@@ -35,14 +34,16 @@ eventEmitter.on(
         material,
         color,
         newQuantity,
+        userEmail
     }: {
         stock: any;
         material: IMaterial;
         color: IColor;
         newQuantity: number;
+        userEmail: string
     }) => {
         await sendEmail({
-            to: WAREHOUSE_EMAIL!,
+            to: userEmail!,
             subject: "Low Stock Alert",
             html: templateLowStock({
                 materialName: material.name,

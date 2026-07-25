@@ -13,7 +13,6 @@ import { IYarnStock } from "../../DB/models/stock.model"
 import MaterialRepository from "../../DB/repository/material.repository"
 import { eventEmitter } from "../../common/utils/email/email.event"
 import { sendEmail } from "../../common/utils/email/nodeMailer"
-import { WAREHOUSE_EMAIL } from "../../config/config.service"
 import { EmailEnum } from "../../common/enums/user.enum"
 import { NotificationType } from "../../DB/models/notifications.model"
 import NotificationRepository from "../../DB/repository/notification.repository"
@@ -191,7 +190,8 @@ class StockService {
                 stock,
                 newQuantity,
                 material,
-                color
+                color,
+                emailUser: req.user.email
             });
 
         }

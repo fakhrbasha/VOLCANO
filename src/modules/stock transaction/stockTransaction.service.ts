@@ -13,7 +13,7 @@ import { IYarnStock } from "../../DB/models/stock.model"
 import MaterialRepository from "../../DB/repository/material.repository"
 import { eventEmitter, NotificationEventEnum } from "../../common/utils/email/email.event"
 import { sendEmail } from "../../common/utils/email/nodeMailer"
-import { WAREHOUSE_EMAIL } from "../../config/config.service"
+// import { WAREHOUSE_EMAIL } from "../../config/config.service"
 import { EmailEnum } from "../../common/enums/user.enum"
 import StockTransactionRepository from "../../DB/repository/stockTransaction.repository"
 import { TransactionStock_Enum } from "../../DB/models/stockTransaction.model"
@@ -153,7 +153,7 @@ class StockTransactionService {
 
         if (newQuantity <= stock.minQuantity) {
             await sendEmail({
-                to: WAREHOUSE_EMAIL!,
+                to: req.user.email!,
                 subject: "Low Stock Alert",
                 html: templateLowStock({
                     materialName: material?.name!,

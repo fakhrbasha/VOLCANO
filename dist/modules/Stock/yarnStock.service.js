@@ -111,7 +111,8 @@ class StockService {
                 stock,
                 newQuantity,
                 material,
-                color
+                color,
+                emailUser: req.user.email
             });
         }
         (0, success_response_1.successResponse)({ res, status: 200, message: "Stock updated successfully", data: { quantity: newQuantity } });

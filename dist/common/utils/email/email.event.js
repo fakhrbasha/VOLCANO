@@ -7,7 +7,6 @@ exports.eventEmitter = exports.NotificationEventEnum = void 0;
 const node_events_1 = require("node:events");
 const user_enum_1 = require("../../enums/user.enum");
 const nodeMailer_1 = require("./nodeMailer");
-const config_service_1 = require("../../../config/config.service");
 const notifications_model_1 = require("../../../DB/models/notifications.model");
 const notification_repository_1 = __importDefault(require("../../../DB/repository/notification.repository"));
 const lowStock__templete_1 = require("./lowStock..templete");
@@ -24,9 +23,9 @@ const notificationModel = new notification_repository_1.default();
 exports.eventEmitter.on(user_enum_1.EmailEnum.confirmedEmail, async (fn) => {
     await fn();
 });
-exports.eventEmitter.on(user_enum_1.EmailEnum.lowStock, async ({ stock, material, color, newQuantity, }) => {
+exports.eventEmitter.on(user_enum_1.EmailEnum.lowStock, async ({ stock, material, color, newQuantity, userEmail }) => {
     await (0, nodeMailer_1.sendEmail)({
-        to: config_service_1.WAREHOUSE_EMAIL,
+        to: userEmail,
         subject: "Low Stock Alert",
         html: (0, lowStock__templete_1.templateLowStock)({
             materialName: material.name,
