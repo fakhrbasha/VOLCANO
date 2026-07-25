@@ -268,5 +268,43 @@ class UserService {
             message: "Logged out successfully"
         });
     };
+    refreshToken = async (req, res, next) => {
+        const { refresh_token } = req.body;
+        if (!refresh_token) {
+            throw new global_error_handling_1.AppError("Refresh token is required", 400);
+        }
+        let decoded;
+        try {
+            try {
+                decoded = this._tokenService.verifyToken({
+                    token: refresh_token,
+                    secretKey: config_service_1.REFRESH_SECRET_KEY_USER
+                });
+            }
+            catch {
+                decoded = this._tokenService.verifyToken({
+                    token: refresh_token,
+                    secretKey: config_service_1.REFRESH_SECRET_KEY_ADMIN
+                });
+            }
+        }
+        catch (error) {
+            throw new global_error_handling_1.AppError("Invalid or expired refresh token", 401);
+        }
+        const user = await this._userModel.findById(decoded.id);
+        if (!user) {
+            throw new global_error_handling_1.AppError("User not found", 404);
+        }
+        const access_token = this._tokenService.generateToken({
+            payload: { id: user._id, email: user.email },
+            secretKey: user.role === user_enum_1.RoleEnum.user
+                ? config_service_1.ACCESS_SECRET_KEY_USER
+                : config_service_1.ACCESS_SECRET_KEY_ADMIN,
+        });
+        return res.status(200).json({
+            message: "Token refreshed successfully",
+            data: { access_token }
+        });
+    };
 }
 exports.default = new UserService();

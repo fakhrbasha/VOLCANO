@@ -20,5 +20,6 @@ authRouter.post('/forget-password', validation(userValidation.forgetPasswordSche
 authRouter.post('/reset-password', validation(userValidation.resetPasswordSchema), UserService.resetPassword)
 authRouter.post('/update-password', authentication, validation(userValidation.updatePasswordSchema), UserService.updatePassword)
 authRouter.post('/logout', authentication, UserService.logOut)
+authRouter.post('/refresh-token', UserService.refreshToken)
 
 export default authRouter

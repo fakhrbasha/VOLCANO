@@ -351,5 +351,49 @@ class UserService {
         });
 
     }
+
+    refreshToken = async (req: Request, res: Response, next: NextFunction) => {
+        const { refresh_token } = req.body;
+
+        if (!refresh_token) {
+            throw new AppError("Refresh token is required", 400);
+        }
+
+        let decoded: any;
+
+        try {
+            try {
+                decoded = this._tokenService.verifyToken({
+                    token: refresh_token,
+                    secretKey: REFRESH_SECRET_KEY_USER!
+                });
+            } catch {
+                decoded = this._tokenService.verifyToken({
+                    token: refresh_token,
+                    secretKey: REFRESH_SECRET_KEY_ADMIN!
+                });
+            }
+
+        } catch (error) {
+            throw new AppError("Invalid or expired refresh token", 401);
+        }
+
+        const user = await this._userModel.findById(decoded.id);
+        if (!user) {
+            throw new AppError("User not found", 404);
+        }
+
+        const access_token = this._tokenService.generateToken({
+            payload: { id: user._id, email: user.email },
+            secretKey: user.role === RoleEnum.user
+                ? ACCESS_SECRET_KEY_USER!
+                : ACCESS_SECRET_KEY_ADMIN!,
+        });
+
+        return res.status(200).json({
+            message: "Token refreshed successfully",
+            data: { access_token }
+        });
+    };
 }
 export default new UserService();

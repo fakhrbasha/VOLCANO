@@ -27,6 +27,7 @@ import accountingRouter from "./modules/accounting/accounting.controller";
 import cors from "cors";
 import shiftRouter from "./modules/shift/shift.controller";
 import payrollRouter from "./modules/payroll/payroll.controller";
+// import { checkConnection } from "./DB/connectionDB";
 const app: express.Application = express();
 const port = PORT || 3000
 app.use(cors());

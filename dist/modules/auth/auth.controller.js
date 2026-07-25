@@ -57,4 +57,5 @@ authRouter.post('/forget-password', (0, validation_1.validation)(userValidation.
 authRouter.post('/reset-password', (0, validation_1.validation)(userValidation.resetPasswordSchema), auth_service_1.default.resetPassword);
 authRouter.post('/update-password', authentication_1.authentication, (0, validation_1.validation)(userValidation.updatePasswordSchema), auth_service_1.default.updatePassword);
 authRouter.post('/logout', authentication_1.authentication, auth_service_1.default.logOut);
+authRouter.post('/refresh-token', auth_service_1.default.refreshToken);
 exports.default = authRouter;
